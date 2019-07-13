@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 int functionFunction(char* param) {
-	char* localString = “conjunction function”;
+	char* localString = "conjunction function";
 	int localInt = 0xdeadbeef;
 	char localString2[10];
 
@@ -12,7 +12,7 @@ int functionFunction(char* param) {
 }
 
 int main(int argc, char* argv[]) {
-	char* localString = “main function”;
+	char* localString = "main function";
 	int localInt = 0x11223344;
 
 	functionFunction(argv[1]);
