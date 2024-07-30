@@ -1,7 +1,7 @@
 global _start
 
 section .bss
-  result resb 16 ; Reserve 16 bytes
+  result resq 2 ; Reserve 2 qwords
 
 section .text
   global _start
@@ -11,19 +11,11 @@ suma:
 
   mov qword [result], 0
 
-  xor rax, rax
-  add rax, [rsi]
-  adc rax, [rcx]
+  add qword [result+8], rsi
+  adc qword [result+8], rcx
 
-  mov [result+8], rax
-
-  xor rax, rax
-
-  adc rax, [rdi]
-  adc rax, [rdx]
-
-  mov [result], rax
-  adc [result], 0
+  adc qword [result], rdi
+  adc qword [result], rdx
 
   xor rax, rax
 
@@ -31,8 +23,8 @@ suma:
 
 _start:
 
-  push ebp
-  mov ebp, esp
+  push rbp
+  mov rbp, rsp
 
   mov rdi, [superlong_a]
   mov rsi, [superlong_a + 8]
@@ -42,8 +34,8 @@ _start:
 
   call suma
 
-  mov esp, ebp
-  pop ebp
+  mov rsp, rbp
+  pop rbp
 
   mov rax, 0
 
