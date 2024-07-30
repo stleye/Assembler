@@ -1,10 +1,10 @@
-global _start
-
 section .bss
   result resq 2 ; Reserve 2 qwords
 
 section .text
-  global _start
+  extern printf
+  extern exit
+  global main
   global suma
 
 suma:
@@ -22,22 +22,19 @@ suma:
 
   ret
 
-_start:
-
-  push rbp
-  mov rbp, rsp
+main:
 
   lea rdi, [superlong_a]
   lea rsi, [superlong_b]
-
   call suma
 
-  mov rsp, rbp
-  pop rbp
+  mov rdi, format
+  mov rsi, [result+8]
+  mov rdx, [result]
+  call printf
 
-  mov rax, 60
-  xor rdi, rdi
-  syscall
+  mov rdi, 0
+  call exit
 
 
 section .data
@@ -49,3 +46,5 @@ section .data
   superlong_b:
     dq 0x8899AABB8899AABB
     dq 0xCCDDEEFFCCDDEEFF
+
+  format db 'Result: %016lx %016lx', 10, 0
