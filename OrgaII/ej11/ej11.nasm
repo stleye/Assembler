@@ -10,14 +10,15 @@ section .text
 suma:
 
   mov qword [result], 0
+  mov qword [result+8], 0
 
-  add qword [result+8], rsi
-  adc qword [result+8], rcx
+  mov rax, [rdi]
+  add rax, [rsi]
+  mov [result], rax
 
-  adc qword [result], rdi
-  adc qword [result], rdx
-
-  xor rax, rax
+  mov rax, [rdi+8]
+  adc rax, [rsi+8]
+  mov [result+8], rax
 
   ret
 
@@ -26,20 +27,17 @@ _start:
   push rbp
   mov rbp, rsp
 
-  mov rdi, [superlong_a]
-  mov rsi, [superlong_a + 8]
-
-  mov rdx, [superlong_b]
-  mov rcx, [superlong_b + 8]
+  lea rdi, [superlong_a]
+  lea rsi, [superlong_b]
 
   call suma
 
   mov rsp, rbp
   pop rbp
 
-  mov rax, 0
-
-  ret
+  mov rax, 60
+  xor rdi, rdi
+  syscall
 
 
 section .data
