@@ -14,23 +14,31 @@ power:
   mov rcx, rsi
   mov rax, 1
 
-loop_start:
+  cmp rsi, 0
+  je return_one
 
-  dec rcx
+loop_start:
 
   imul rdi
 
   add [result+8], rax
   adc [result], rdx
 
-  jnz loop_start
+  loop loop_start
+
+end_loop:
 
   ret
+
+return_one:
+  mov qword [result], 0
+  mov qword [result+8], 1
+  jmp end_loop
 
 main:
 
   mov rdi, -3
-  mov rsi, 5
+  mov rsi, 2
   call power
 
   mov rdi, 0
