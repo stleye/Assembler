@@ -24,17 +24,19 @@ suma:
 
 main:
 
+  push rbx
+  sub rsp, 8
+
   lea rdi, [superlong_a]
   lea rsi, [superlong_b]
   call suma
 
-  mov rdi, format
-  mov rsi, [result+8]
-  mov rdx, [result]
-  call printf
-
   mov rdi, 0
   call exit
+
+  add rsp, 8
+  pop rbx
+  ret
 
 
 section .data
