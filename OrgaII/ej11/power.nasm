@@ -11,10 +11,19 @@ power:
   mov qword [result], 0
   mov qword [result+8], 0
   
+  mov rcx, rsi
   mov rax, 1
-  imul rdi      ;rdx:rax = rax * rdi
-  mov [result], rdx
-  mov [result+8], rax
+
+loop_start:
+
+  dec rcx
+
+  imul rdi
+
+  add [result+8], rax
+  adc [result], rdx
+
+  jnz loop_start
 
   ret
 
